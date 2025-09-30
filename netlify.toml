@@ -1,0 +1,14 @@
+[functions]
+node_bundler = "esbuild"
+external_node_modules = ["undici"]
+
+[[redirects]]
+from = "/mcp"
+to = "/.netlify/functions/mcp"
+status = 200
+
+# 스케줄: 한국 08:45 KST 리포트 트리거(월~금)
+# Netlify 크론은 UTC 기준. 08:45 KST = 전일 23:45 UTC
+[[scheduled.functions]]
+name = "mcp"
+cron = "45 23 * * 0-4"

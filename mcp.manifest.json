@@ -1,0 +1,143 @@
+{
+  "name": "netlify-mcp-stocks",
+  "version": "0.1.0",
+  "description": "MCP server on Netlify for stock ideas (KRX/US)",
+  "transport": {
+    "type": "http-stream",
+    "endpoints": {
+      "rpc": "/mcp",
+      "stream": "/mcp/stream"
+    }
+  },
+  "auth": {
+    "scheme": "bearer",
+    "required": false
+  },
+  "tools": [
+    {
+      "name": "recommend_stocks",
+      "description": "Return top-N tickers by factor mix (momentum, volatility, turnover).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "universe": {
+            "type": "string",
+            "enum": [
+              "KRX",
+              "US"
+            ],
+            "default": "KRX"
+          },
+          "n": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 6
+          },
+          "lookback_days": {
+            "type": "integer",
+            "default": 60
+          },
+          "weights": {
+            "type": "object",
+            "properties": {
+              "momentum": {
+                "type": "number",
+                "default": 0.6
+              },
+              "volatility": {
+                "type": "number",
+                "default": -0.2
+              },
+              "turnover": {
+                "type": "number",
+                "default": 0.2
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "name": "health_check",
+      "description": "\uc9c0\uc218/\uc139\ud130 \uc0c1\ud0dc \uac04\ub2e8 \uc810\uac80",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "type": "string",
+            "enum": [
+              "KRX",
+              "US"
+            ],
+            "default": "KRX"
+          }
+        }
+      }
+    },
+    {
+      "name": "news_summarize",
+      "description": "\ud2f0\ucee4 \ub274\uc2a4 \uc694\uc57d",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "tickers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "backtest_simple",
+      "description": "SMA/MOM \uac04\ub2e8 \ubc31\ud14c\uc2a4\ud2b8",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string",
+            "enum": [
+              "SMA20>SMA60",
+              "MOM60>0"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "watchlist_add",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "watchlist_list",
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "watchlist_remove",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

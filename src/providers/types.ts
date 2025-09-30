@@ -1,0 +1,1 @@
+export type Candle = { t: number[]; c: number[]; v: number[] };

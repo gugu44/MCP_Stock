@@ -1,0 +1,19 @@
+{
+  "name": "netlify-mcp-stocks",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "lint": "biome check .",
+    "format": "biome format ."
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0",
+    "@netlify/functions": "^2.8.1",
+    "fast-json-stringify": "^5.16.1",
+    "undici": "^6.19.8"
+  },
+  "devDependencies": {
+    "biome": "^1.8.3"
+  }
+}
